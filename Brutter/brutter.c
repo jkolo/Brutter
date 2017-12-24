@@ -11,15 +11,16 @@ przy u¿yciu metody bruteforce
 
 #include <stdio.h>
 #include <string.h>
+#define keyLength 1
 
-#define keyLength 2 //d³ugoœæ klucza szyfruj¹cego
+
+
+
 
 char password[] = "kylewbanks.com";
 char encrypted[sizeof(password)];
 char decrypted[sizeof(password)];
 char encryptedResult[sizeof(password)];
-
-char key[keyLength];
 
 void printHeader()
 {
@@ -32,51 +33,60 @@ void printHeader()
 Algorytm szyfrowania XOR zaczerpniêty ze repozytorium https://github.com/KyleBanks/XOREncryption/tree/master/C.
 Uzupe³niony o drobne poprawki z mojej strony
 */
-void encryptDecrypt(char *input, char *key, char *output) 
+void encryptDecrypt(char *input, char key[], char *output) 
 {
 	int i;
 	for (i = 0; i < strlen(input); i++) {
 		output[i] = input[i] ^ key[i % (sizeof(key) / sizeof(char))];
+		//printf("i: %d , sizeof(key): %d , sizeof(char): %d , output: %c\n", i, sizeof(key), sizeof(char), output[i]);
 	}
 
 	output[i] = 0;
 }
 
 
-void brute_impl(char *str, int index, int max_depth)
+int brute_impl(char *str, int index, int max_depth)
 {
-	for (char i = -128; i < 127; i++)
+	for (char i = 66; i < 127; i++)
 	{
 		str[index] = i;
 
 		if (index == max_depth - 1)
 		{
-			printf("%s\n", str); // put check() here instead
+			printf("%s\n", str);
+			encryptDecrypt(password, str, encryptedResult);
+
+			if (strcmp(encryptedResult, encrypted) == 0)
+			{
+				printf("Znaleziono klucz szyfrowania: %s\n", str);
+				return 1;
+			}
 		}
 		else
 		{
-			brute_impl(str, index + 1, max_depth);
+			int result = brute_impl(str, index + 1, max_depth);
+			if (result == 1) return result;
 		}
 	}
 }
 
-void brute_sequential(int max_len)
+void brute_sequential()
 {
-	char * buf = malloc(max_len + 1);
+	char buf[keyLength + 1];
+
 	int i;
-
-	for (i = 1; i <= max_len; ++i)
+	for (i = 1; i <= keyLength; ++i)
 	{
-		memset(buf, 0, max_len + 1);
-		brute_impl(buf, 0, i);
+		memset(buf, 0, sizeof(buf));
+		int result = brute_impl(buf, 0, i);
+		if (result == 1) break;
 	}
-
-	free(buf);
 }
 
 int main(int argc, char *argv[]) 
 {
-	char secretKey[] = "B"; //Can be any chars, and any size array
+	//char secretKey[] = "B"; //Can be any chars, and any size array
+	const char secretKey[] = "B"; //Can be any chars, and any size array
 
 	printHeader();
 	encryptDecrypt(password, secretKey, encrypted);
@@ -89,7 +99,7 @@ int main(int argc, char *argv[])
 	printf("\n");
 	printf("Rozpoczynamy iterowanie w celu znalezienia klucza:\n");
 
-	for (char i = -128; i < 127; i++)
+	/*for (char i = -128; i < 127; i++)
 	{		
 		printf("Iteracja: %d, znak: %c", i + 129, i);
 
@@ -103,7 +113,9 @@ int main(int argc, char *argv[])
 			printf("Znaleziono klucz szyfrowania: %s\n", testKey);
 			break;
 		}
-	}
+	}*/
+
+	brute_sequential();
 
 	printf("Koniec!\n");
 
