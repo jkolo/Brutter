@@ -15,11 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="brutter.c">
+    <ClCompile Include="crypter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="string_iteration.c">
+    <ClCompile Include="bruteforce.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="crypter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bruteforce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
