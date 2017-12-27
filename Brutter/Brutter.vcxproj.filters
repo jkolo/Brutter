@@ -18,5 +18,8 @@
     <ClCompile Include="brutter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="string_iteration.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
