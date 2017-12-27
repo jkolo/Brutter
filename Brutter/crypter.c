@@ -17,7 +17,7 @@ void encryptDecrypt(char *input, char *key, char *output)
 
 void secretEncrypt(char *input, char *output)
 {
-	encryptDecrypt(input, secretKey, output);
+	encryptDecrypt(input, SECRET_KEY, output);
 }
 
 void decrypt(char *input, char *key, char *output)

@@ -1,5 +1,5 @@
 /*
-Algorytm do generowania stringów na potrzeby algorytmu brute force zaczerpniêty ze strony
+Algorytm do generowania stringów na potrzeby metody brute force zaczerpniêty ze strony
 http://hacksenkessel.com/2014/brute-force-algorithm-in-c/, przepisany przeze mnie z C++ na C
 oraz dostosowany do bie¿¹cych potrzeb
 */
@@ -8,9 +8,9 @@ oraz dostosowany do bie¿¹cych potrzeb
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "crypter.h"
 
-#define MAX_KEY_LENGTH 8
+#include "crypter.h"
+#include "main.h"
 
 char * bruteforce(char *password, char *encrypted) 
 {
@@ -32,16 +32,16 @@ char * bruteforce(char *password, char *encrypted)
 
 	char *charArray = malloc((sizeof(char) * (charRange + 1)));
 
-	int b = 0;
+	int index = 0;
 	for (char i = asciiMinIndex; i < asciiMaxIndex; i++)
 	{
-		charArray[b] = i;
-		b++;
+		charArray[index] = i;
+		index++;
 	}
 
-	charArray[b] = '\0'; //NULL terminator na koñcu tablicy
+	charArray[index] = '\0'; //NULL terminator na koñcu tablicy
 
-	//iteracje opieraj¹ siê na maksymalnej liczbie permutacji
+	//iteracje opieraj¹ siê na maksymalnej liczbie permutacji tablicy z dopuszczalnymi znakami
 	int alphabetLength = strlen(charArray);
 	for (int n = 1; n <= MAX_KEY_LENGTH; n++)
 	{
@@ -53,7 +53,11 @@ char * bruteforce(char *password, char *encrypted)
 		for (int a = 0; a < alphabetLength; a++)
 		{
 			key[pos] = charArray[a];
-			printf("%s\n", key);
+			
+			if (PRINT_ITERATION_OUTPUT == 1)
+			{
+				printf("%s\n", key);
+			}
 
 			encryptDecrypt(password, key, encryptedResult);
 
@@ -74,11 +78,9 @@ char * bruteforce(char *password, char *encrypted)
 			}
 			else {
 				if (n == 0) {
-					/* increase password length */
 					memset(key, (int)charArray[0], ++pos + 1);
 					break;
 				}
-				/* re-initialize current password index */
 				key[n] = charArray[0];
 			}
 		}

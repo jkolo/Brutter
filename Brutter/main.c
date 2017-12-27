@@ -11,12 +11,17 @@ przy u¿yciu metody bruteforce
 
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
+#include <time.h>
+
 #include "bruteforce.h"
 #include "crypter.h"
 
 //Parametry programu:
-const char password[] = "kylewbanks.com";
-const char *secretKey = "!AAB";
+const char PASSWORD[] = "pwd1234";
+const char *SECRET_KEY = "!AAB";
+const int MAX_KEY_LENGTH = 8;
+const int PRINT_ITERATION_OUTPUT = 0;
 
 void printHeader()
 {
@@ -28,18 +33,29 @@ void printHeader()
 int main(int argc, char *argv[]) 
 {
 	char * result = NULL;
-	char encrypted[sizeof(password)];
+	char encrypted[sizeof(PASSWORD)];
 
 	printHeader();
-	secretEncrypt(password, encrypted);
+	secretEncrypt(PASSWORD, encrypted);
 
-	printf("Zdefiniowane haslo: %s\n", password);
+	printf("Zdefiniowane haslo: %s\n", PASSWORD);
 	printf("Otrzymane zaszyfrowane haslo: %s\n", encrypted);
-
 	printf("\n");
-	printf("Rozpoczynamy iterowanie w celu znalezienia klucza:\n");
 
-	result = bruteforce(password, encrypted);
+	Sleep(3000); // niech u¿ytkownik zobaczy pocz¹tkowy header!
+
+	if (PRINT_ITERATION_OUTPUT == 1)
+	{
+		printf("Rozpoczynamy iterowanie w celu znalezienia klucza:\n");
+		Sleep(2000); // j.w.
+	}
+	else
+	{
+		printf("(Wylaczono wyswietlanie iteracji lancucha znakow)\n");
+	}
+
+	clock_t start = clock();
+	result = bruteforce(PASSWORD, encrypted);
 
 	if (result != NULL)
 	{
@@ -49,6 +65,10 @@ int main(int argc, char *argv[])
 	{
 		printf("Nie znaleziono klucza szyfrujacego!\n");
 	}
+
+	clock_t end = clock();
+	float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+	printf("Operacja zajela %.2f sekund.\n", seconds);
 
 	free(result);
 }
