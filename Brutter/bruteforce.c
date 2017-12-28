@@ -1,7 +1,7 @@
 /*
-Algorytm do generowania stringów na potrzeby metody brute force zaczerpniêty ze strony
+Algorytm do generowania stringÃ³w na potrzeby metody brute force zaczerpniÄ™ty ze strony
 http://hacksenkessel.com/2014/brute-force-algorithm-in-c/, przepisany przeze mnie z C++ na C
-oraz dostosowany do bie¿¹cych potrzeb
+oraz dostosowany do bieÅ¼Ä…cych potrzeb
 */
 
 #include <stdio.h>
@@ -23,9 +23,9 @@ char * bruteforce(char *password, char *encrypted)
 	int n;
 	int	pos = 0;
 	int	count = 0;
-	int max_perms = 0;
+	long max_perms = 0;
 
-	//Za³o¿enie: klucz sk³ada siê tylko ze znaków, które mo¿na wywo³aæ klawiatur¹
+	//ZaÅ‚oÅ¼enie: klucz skÅ‚ada siÄ™ tylko ze znakÃ³w, ktÃ³re moÅ¼na wywoÅ‚aÄ‡ klawiaturÄ…
 	const int asciiMinIndex = 32;
 	const int asciiMaxIndex = 127;
 	const int charRange = asciiMaxIndex - asciiMinIndex;
@@ -35,18 +35,19 @@ char * bruteforce(char *password, char *encrypted)
 	int index = 0;
 	for (char i = asciiMinIndex; i < asciiMaxIndex; i++)
 	{
-		charArray[index] = i;
-		index++;
+		charArray[index++] = i;
 	}
 
-	charArray[index] = '\0'; //NULL terminator na koñcu tablicy
+	charArray[index] = '\0'; //NULL terminator na koÅ„cu tablicy
 
-	//iteracje opieraj¹ siê na maksymalnej liczbie permutacji tablicy z dopuszczalnymi znakami
+	//iteracje opierajÄ… siÄ™ na maksymalnej liczbie permutacji tablicy z dopuszczalnymi znakami
 	int alphabetLength = strlen(charArray);
 	for (int n = 1; n <= MAX_KEY_LENGTH; n++)
 	{
-		max_perms += (int)pow(alphabetLength, n);
+		max_perms += (long)pow(alphabetLength, n);
 	}
+
+	printf("Maksymalna dÅ‚ugoÅ›Ä‡ hasÅ‚a: %d, dÅ‚ugoÅ›Ä‡ alfabetu: %d, iloÅ›Ä‡ kombinacji: %d\n", MAX_KEY_LENGTH, alphabetLength, max_perms);
 
 	while (count < max_perms) 
 	{
@@ -54,10 +55,9 @@ char * bruteforce(char *password, char *encrypted)
 		{
 			key[pos] = charArray[a];
 			
-			if (PRINT_ITERATION_OUTPUT == 1)
-			{
-				printf("%s\n", key);
-			}
+#ifdef PRINT_ITERATION_OUTPUT
+			printf("%s\n", key);
+#endif
 
 			encryptDecrypt(password, key, encryptedResult);
 
