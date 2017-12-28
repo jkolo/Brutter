@@ -9,6 +9,7 @@ void encryptDecrypt(char *input, char *key, char *output)
 {
 	int i;
 	for (i = 0; i < strlen(input); i++) {
+		output[i] = input[i] ^ key[i % (strlen(key) * sizeof(char))];
 	}
 
 	output[i] = '\0';
