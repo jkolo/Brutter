@@ -19,7 +19,7 @@ przy u¿yciu metody bruteforce
 
 //Parametry programu:
 const char PASSWORD[] = "pwd1234";
-const char *SECRET_KEY = "!AAB";
+const char SECRET_KEY[] = "!ABCDE";
 const int MAX_KEY_LENGTH = 8;
 const int PRINT_ITERATION_OUTPUT = 0;
 
@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
 
 	clock_t start = clock();
 	result = bruteforce(PASSWORD, encrypted);
+	clock_t end = clock();
 
 	if (result != NULL)
 	{
@@ -66,9 +67,8 @@ int main(int argc, char *argv[])
 		printf("Nie znaleziono klucza szyfrujacego!\n");
 	}
 
-	clock_t end = clock();
 	float seconds = (float)(end - start) / CLOCKS_PER_SEC;
-	printf("Operacja zajela %.2f sekund.\n", seconds);
+	printf("Operacja zajela %.3f sekund.\n", seconds);
 
 	free(result);
 }

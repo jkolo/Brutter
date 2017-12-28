@@ -22,8 +22,8 @@ char * bruteforce(char *password, char *encrypted)
 
 	int n;
 	int	pos = 0;
-	int	count = 0;
-	int max_perms = 0;
+	unsigned long long count = 0;
+	unsigned long long max_perms = 0;
 
 	//Za³o¿enie: klucz sk³ada siê tylko ze znaków, które mo¿na wywo³aæ klawiatur¹
 	const int asciiMinIndex = 32;
@@ -45,7 +45,7 @@ char * bruteforce(char *password, char *encrypted)
 	int alphabetLength = strlen(charArray);
 	for (int n = 1; n <= MAX_KEY_LENGTH; n++)
 	{
-		max_perms += (int)pow(alphabetLength, n);
+		max_perms += (unsigned long long)pow(alphabetLength, n);
 	}
 
 	while (count < max_perms) 
