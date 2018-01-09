@@ -2,26 +2,26 @@
 ################## Brutter v1.0 ######################
 Autor: Daniel Andraszeski, nr albumu: 287412
 Program na potrzeby z projektu przedmiotu
-Programowanie RÛwnoleg≥e i Rozproszone
+Programowanie R√≥wnoleg≈Çe i Rozproszone
 Politechnika Warszawska, 2017/2018
-Program do ≥amania has≥a zaszyfrowanego algorytmem XOR
-przy uøyciu metody bruteforce
+Program do ≈Çamania has≈Ça zaszyfrowanego algorytmem XOR
+przy u≈ºyciu metody bruteforce
 ######################################################
 */
 
 #include <stdio.h>
 #include <string.h>
-#include <windows.h>
 #include <time.h>
 #include <omp.h>
+#include <unistd.h>
 
 #include "bruteforce.h"
 #include "crypter.h"
 
 //Parametry programu:
 const char PASSWORD[] = "pwd1234";
-const char SECRET_KEY[] = "zABC";
-const char MAX_KEY_LENGTH = 8;
+const char SECRET_KEY[] = "zABCD";
+const int MAX_KEY_LENGTH = 5;
 const int PRINT_ITERATION_OUTPUT = 0;
 
 void printHeader()
@@ -36,6 +36,13 @@ int main(int argc, char *argv[])
 	char * result = NULL;
 	char encrypted[sizeof(PASSWORD)];
 
+	if(!omp_get_cancellation())
+    {
+      printf("Cancellations were not enabled, enabling cancellation and rerunning program\n");
+      putenv("OMP_CANCELLATION=true");
+      execv(argv[0], argv);
+    }
+
 	printHeader();
 	secretEncrypt(PASSWORD, encrypted);
 
@@ -43,12 +50,12 @@ int main(int argc, char *argv[])
 	printf("Otrzymane zaszyfrowane haslo: %s\n", encrypted);
 	printf("\n");
 
-	Sleep(2000); // niech uøytkownik zobaczy poczπtkowy header!
+	//sleep(3); // niech u≈ºytkownik zobaczy poczƒÖtkowy header!
 
 	if (PRINT_ITERATION_OUTPUT)
 	{
 		printf("Rozpoczynamy iterowanie w celu znalezienia klucza:\n");
-		Sleep(1000); // j.w.
+		//sleep(1); // j.w.
 	}
 	else
 	{

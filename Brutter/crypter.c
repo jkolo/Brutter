@@ -1,6 +1,6 @@
 /*
-Algorytm szyfrowania XOR zaczerpniêty ze repozytorium https://github.com/KyleBanks/XOREncryption/tree/master/C.
-Uzupe³niony o drobne poprawki z mojej strony
+Algorytm szyfrowania XOR zaczerpniÄ™ty ze repozytorium https://github.com/KyleBanks/XOREncryption/tree/master/C.
+UzupeÅ‚niony o drobne poprawki z mojej strony
 */
 
 #include "main.h"
